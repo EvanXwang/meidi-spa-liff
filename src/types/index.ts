@@ -55,3 +55,12 @@ export interface MeResponse {
   upcomingBookings: Array<Booking & { service: Service; therapist: Therapist | null }>;
   courseBalances: Array<CourseBalance & { service: Service }>;
 }
+
+export interface TodayBooking {
+  id: string;
+  scheduled_start: string;
+  scheduled_end: string;
+  status: 'booked' | 'checked_in' | 'cancelled';
+  service: { name: string; duration: number };
+  therapist: { name: string; title: string | null } | null;
+}
