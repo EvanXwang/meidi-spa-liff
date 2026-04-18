@@ -42,7 +42,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <main className="min-h-screen bg-amber-50 p-4 pb-8 max-w-md mx-auto space-y-4">
+    <main className="min-h-screen bg-amber-50 p-4 pb-24 max-w-md mx-auto space-y-4">
       {/* Back link */}
       <div className="pt-4 pb-2">
         <Link href="/dashboard" className="text-amber-700 font-medium flex items-center gap-1">

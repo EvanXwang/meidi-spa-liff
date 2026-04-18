@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { apiFetch } from '@/lib/api';
 import { Service } from '@/types';
 import { ServiceCard } from '@/components/ServiceCard';
@@ -20,19 +21,42 @@ export default function ServicesPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <LoadingSpinner />;
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-amber-50 p-4 pb-24 max-w-md mx-auto">
+        <div className="pt-4 pb-2">
+          <Link href="/dashboard" className="text-amber-700 font-medium flex items-center gap-1">
+            ← 返回
+          </Link>
+        </div>
+        <LoadingSpinner />
+      </main>
+    );
+  }
 
   if (error) {
     return (
-      <main className="p-6">
+      <main className="min-h-screen bg-amber-50 p-4 pb-24 max-w-md mx-auto">
+        <div className="pt-4 pb-2">
+          <Link href="/dashboard" className="text-amber-700 font-medium flex items-center gap-1">
+            ← 返回
+          </Link>
+        </div>
         <p className="text-red-500">載入失敗：{error}</p>
       </main>
     );
   }
 
   return (
-    <main className="p-6">
-      <h1 className="text-2xl font-bold text-amber-700 mb-6">「療程服務」</h1>
+    <main className="min-h-screen bg-amber-50 p-4 pb-24 max-w-md mx-auto">
+      {/* Back link */}
+      <div className="pt-4 pb-2">
+        <Link href="/dashboard" className="text-amber-700 font-medium flex items-center gap-1">
+          ← 返回
+        </Link>
+      </div>
+
+      <h1 className="text-2xl font-bold text-amber-700 mb-6">療程服務</h1>
       <div className="flex flex-col gap-4">
         {services.map((service) => (
           <ServiceCard

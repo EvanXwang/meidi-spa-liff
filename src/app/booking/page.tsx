@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/src/style.css';
 import { format } from 'date-fns';
@@ -71,8 +72,14 @@ function BookingInner() {
   // ── Step 1: Choose service ──────────────────────────────────────────────
   if (step === 1) {
     return (
-      <main className="p-6">
-        <h1 className="text-2xl font-bold text-amber-700 mb-2">「預約療程」</h1>
+      <main className="min-h-screen bg-amber-50 p-4 pb-24 max-w-md mx-auto">
+        {/* Back link */}
+        <div className="pt-4 pb-2">
+          <Link href="/dashboard" className="text-amber-700 font-medium flex items-center gap-1">
+            ← 返回
+          </Link>
+        </div>
+        <h1 className="text-2xl font-bold text-amber-700 mb-2">預約療程</h1>
         <p className="text-sm text-gray-500 mb-6">步驟 1 / 3 — 選擇療程</p>
 
         {loadingServices && <LoadingSpinner />}
@@ -103,8 +110,8 @@ function BookingInner() {
   // ── Step 2: Choose date + therapist ────────────────────────────────────
   if (step === 2) {
     return (
-      <main className="p-6">
-        <h1 className="text-2xl font-bold text-amber-700 mb-2">「預約療程」</h1>
+      <main className="min-h-screen bg-amber-50 p-4 pb-24 max-w-md mx-auto">
+        <h1 className="text-2xl font-bold text-amber-700 mb-2 pt-4">預約療程</h1>
         <p className="text-sm text-gray-500 mb-6">步驟 2 / 3 — 選擇日期與治療師</p>
 
         {/* Selected service summary */}
@@ -211,8 +218,8 @@ function BookingInner() {
     : '';
 
   return (
-    <main className="p-6">
-      <h1 className="text-2xl font-bold text-amber-700 mb-2">「預約療程」</h1>
+    <main className="min-h-screen bg-amber-50 p-4 pb-24 max-w-md mx-auto">
+      <h1 className="text-2xl font-bold text-amber-700 mb-2 pt-4">預約療程</h1>
       <p className="text-sm text-gray-500 mb-6">步驟 3 / 3 — 確認預約</p>
 
       <div className="bg-white border border-gray-200 rounded-2xl p-5 mb-6 flex flex-col gap-3 shadow-sm">

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
 import { apiFetch } from '@/lib/api';
 import { Card } from '@/components/ui/Card';
@@ -10,7 +10,6 @@ import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import type { TodayBooking } from '@/types/index';
 
 export default function TodayPage() {
-  const router = useRouter();
   const [booking, setBooking] = useState<TodayBooking | null>(null);
   const [loading, setLoading] = useState(true);
   const [checking, setChecking] = useState(false);
@@ -63,16 +62,13 @@ export default function TodayPage() {
   }
 
   return (
-    <main className="min-h-screen bg-amber-50 p-4 pb-8 max-w-md mx-auto space-y-4">
+    <main className="min-h-screen bg-amber-50 p-4 pb-24 max-w-md mx-auto space-y-4">
       {/* Header */}
-      <div className="pt-4 pb-2 flex items-center gap-2">
-        <button
-          onClick={() => router.back()}
-          className="text-amber-600 hover:text-amber-800 transition-colors text-sm"
-        >
+      <div className="pt-4 pb-2">
+        <Link href="/dashboard" className="text-amber-700 font-medium flex items-center gap-1">
           ← 返回
-        </button>
-        <h1 className="text-xl font-bold text-amber-700">今日打卡</h1>
+        </Link>
+        <h1 className="text-2xl font-bold text-amber-700 mt-2">今日打卡</h1>
       </div>
 
       {/* Error banner */}

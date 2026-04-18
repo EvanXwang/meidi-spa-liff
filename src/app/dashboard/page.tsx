@@ -53,7 +53,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-amber-50 p-4 pb-8 max-w-md mx-auto space-y-4">
+    <main className="min-h-screen bg-amber-50 p-4 pb-24 max-w-md mx-auto space-y-4">
       {/* Header */}
       <div className="pt-4 pb-2 flex items-start justify-between">
         <div>
