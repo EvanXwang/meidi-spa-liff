@@ -7,7 +7,7 @@ import 'react-day-picker/src/style.css';
 import { format } from 'date-fns';
 import { zhTW } from 'date-fns/locale';
 import { apiFetch } from '@/lib/api';
-import { Service, Therapist } from '@/types';
+import { Booking, Service, Therapist } from '@/types';
 import { ServiceCard } from '@/components/ServiceCard';
 import { TherapistAvatar } from '@/components/TherapistAvatar';
 import { TimeSlotPicker } from '@/components/TimeSlotPicker';
@@ -33,6 +33,10 @@ function BookingInner() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [selectedTherapist, setSelectedTherapist] = useState<Therapist | null>(null);
+
+  // Submission state
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Load services
   useEffect(() => {
@@ -227,22 +231,39 @@ function BookingInner() {
         )}
       </div>
 
+      {submitError && (
+        <p className="text-red-500 text-sm mb-4">{submitError}</p>
+      )}
+
       <div className="flex gap-3">
-        <Button variant="outline" onClick={() => setStep(2)}>
+        <Button variant="outline" onClick={() => setStep(2)} disabled={submitting}>
           上一步
         </Button>
         <Button
           variant="primary"
-          onClick={() => {
-            console.log('TODO: submit booking', {
-              serviceId: selectedService?.id,
-              date: selectedDate,
-              time: selectedTime,
-              therapistId: selectedTherapist?.id ?? null,
-            });
+          disabled={submitting}
+          onClick={async () => {
+            setSubmitError(null);
+            setSubmitting(true);
+            try {
+              await apiFetch<{ booking: Booking }>('/api/bookings', {
+                method: 'POST',
+                body: JSON.stringify({
+                  serviceId: selectedService!.id,
+                  therapistId: selectedTherapist?.id ?? null,
+                  date: format(selectedDate!, 'yyyy-MM-dd'),
+                  time: selectedTime!,
+                }),
+              });
+              router.push('/dashboard');
+            } catch (e: unknown) {
+              setSubmitError(e instanceof Error ? e.message : '預約失敗，請再試一次');
+            } finally {
+              setSubmitting(false);
+            }
           }}
         >
-          確認預約
+          {submitting ? '處理中…' : '確認預約'}
         </Button>
       </div>
     </main>
