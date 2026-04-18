@@ -1,11 +1,11 @@
-insert into services (name, category, duration, price, description, display_order) values
-('深層組織紓壓按摩',   'spa', 90,  2800, '針對深層肌肉的強力按摩，有效緩解長期積累的疲勞與緊繃。', 1),
-('芳香精油放鬆',       'spa', 60,  2200, '運用天然植物精油，結合輕柔滑順的手法，達到身心靈的完全放鬆。', 2),
-('深層舒解纖背課程',   'spa', 60,  1199, '針對背部肌群、改善體態。', 3),
-('杏仁新肌保養',       'spa', 75,  2400, '溫和的二階換膚、深入肌底、提亮膚色，重塑光澤與彈性。', 4),
-('纖背課程',           'spa', 60,  1199, '針對下半身水腫排毒。', 5),
-('夢想擊原素',         'spa', 120, 2999, '頂級石光療程、深層導入提亮膚質配方精華、進入塑形階段。', 6),
-('進階臀腿課程',       'spa', 60,  1800, '針對臀腿線條雕塑、緊實。', 7);
+insert into services (name, category, duration, price, description, display_order, image_url) values
+('深層組織紓壓按摩',   'spa', 90,  2800, '針對深層肌肉的強力按摩，有效緩解長期積累的疲勞與緊繃。', 1, '/services/back-ritual.jpg'),
+('芳香精油放鬆',       'spa', 60,  2200, '運用天然植物精油，結合輕柔滑順的手法，達到身心靈的完全放鬆。', 2, '/services/almond-facial.jpg'),
+('深層舒解纖背課程',   'spa', 60,  1199, '針對背部肌群、改善體態。', 3, '/services/back-ritual.jpg'),
+('杏仁新肌保養',       'spa', 75,  2400, '溫和的二階換膚、深入肌底、提亮膚色，重塑光澤與彈性。', 4, '/services/almond-facial.jpg'),
+('纖背課程',           'spa', 60,  1199, '針對下半身水腫排毒。', 5, '/services/back-ritual.jpg'),
+('夢想擊原素',         'spa', 120, 2999, '頂級石光療程、深層導入提亮膚質配方精華、進入塑形階段。', 6, '/services/dream-collagen.jpg'),
+('進階臀腿課程',       'spa', 60,  1199, '針對臀腿線條雕塑、緊實。', 7, '/services/leg-hip-therapy.jpg');
 
 insert into therapists (name, title, display_order) values
 ('Sarah',     '資深芳療師', 1),

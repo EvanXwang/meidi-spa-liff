@@ -12,7 +12,7 @@ interface Props {
 export function ServiceCard({ service, onBook }: Props) {
   return (
     <Card className="flex flex-col gap-3">
-      {/* Image / placeholder */}
+      {/* Image / themed fallback */}
       {service.image_url ? (
         <img
           src={service.image_url}
@@ -20,7 +20,12 @@ export function ServiceCard({ service, onBook }: Props) {
           className="w-20 h-20 rounded-lg object-cover"
         />
       ) : (
-        <div className="w-20 h-20 rounded-lg bg-gray-200" aria-hidden="true" />
+        <div
+          className="w-20 h-20 rounded-lg bg-gradient-to-br from-amber-300 to-amber-500 flex items-center justify-center text-white font-bold text-2xl select-none shadow-sm"
+          aria-hidden="true"
+        >
+          {service.name.charAt(0)}
+        </div>
       )}
 
       {/* Name */}
