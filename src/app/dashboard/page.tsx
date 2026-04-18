@@ -2,6 +2,7 @@
 
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
 import { AuthContext } from '@/providers/AuthProvider';
 import { apiFetch } from '@/lib/api';
@@ -15,6 +16,7 @@ export default function DashboardPage() {
   const router = useRouter();
   const [meData, setMeData] = useState<MeResponse | null>(null);
   const [meError, setMeError] = useState<string | null>(null);
+  const [resetting, setResetting] = useState(false);
 
   useEffect(() => {
     if (!userId) return;
@@ -25,6 +27,22 @@ export default function DashboardPage() {
         setMeError(e instanceof Error ? e.message : 'Failed to load data');
       });
   }, [userId]);
+
+  async function handleReset() {
+    if (!confirm('[Dev] Reset demo data? This cannot be undone.')) return;
+    setResetting(true);
+    try {
+      await apiFetch('/api/dev/reset-me', { method: 'POST' });
+      const fresh = await apiFetch<MeResponse>('/api/me');
+      setMeData(fresh);
+      setMeError(null);
+    } catch (e: unknown) {
+      console.error('[Dashboard] reset error:', e);
+      alert('Reset failed: ' + (e instanceof Error ? e.message : String(e)));
+    } finally {
+      setResetting(false);
+    }
+  }
 
   if (authLoading) {
     return (
@@ -37,9 +55,21 @@ export default function DashboardPage() {
   return (
     <main className="min-h-screen bg-amber-50 p-4 pb-8 max-w-md mx-auto space-y-4">
       {/* Header */}
-      <div className="pt-4 pb-2">
-        <h1 className="text-2xl font-bold text-amber-700">美的原點 Spa 仕女館</h1>
-        <p className="mt-1 text-gray-600">歡迎回來，{displayName ?? '會員'}</p>
+      <div className="pt-4 pb-2 flex items-start justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-amber-700">美的原點 Spa 仕女館</h1>
+          <p className="mt-1 text-gray-600">歡迎回來，{displayName ?? '會員'}</p>
+        </div>
+        <Link
+          href="/profile"
+          className="mt-1 p-2 rounded-full hover:bg-amber-100 text-amber-700 transition-colors"
+          aria-label="個人資料"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+          </svg>
+        </Link>
       </div>
 
       {/* Loading state for me data */}
@@ -133,6 +163,19 @@ export default function DashboardPage() {
           服務列表
         </Button>
       </div>
+
+      {/* Dev-only reset button */}
+      {process.env.NEXT_PUBLIC_ENABLE_DEV === 'true' && (
+        <div className="flex justify-center pt-2">
+          <button
+            onClick={handleReset}
+            disabled={resetting}
+            className="text-xs text-gray-400 underline disabled:opacity-50"
+          >
+            {resetting ? 'Resetting…' : '[Dev] Reset demo data'}
+          </button>
+        </div>
+      )}
     </main>
   );
 }
