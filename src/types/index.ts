@@ -48,3 +48,10 @@ export interface CourseBalance {
   service_id: string;
   remaining: number;
 }
+
+export interface MeResponse {
+  profile: UserProfile;
+  wallet: Wallet;
+  upcomingBookings: Array<Booking & { service: Service; therapist: Therapist | null }>;
+  courseBalances: Array<CourseBalance & { service: Service }>;
+}
