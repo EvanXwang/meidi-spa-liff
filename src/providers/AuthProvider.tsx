@@ -1,8 +1,11 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { initLiff, getLiffProfile, getLiffIdToken, liff } from '@/lib/liff';
 import { setToken, apiFetch } from '@/lib/api';
+
+const PUBLIC_PATHS = ['/location'];
 
 interface AuthContextType {
   userId: string | null;
@@ -31,8 +34,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [stage, setStage] = useState<string>('init');
+  const pathname = usePathname();
+  const isPublicPath = PUBLIC_PATHS.includes(pathname);
 
   useEffect(() => {
+    if (isPublicPath) {
+      setLoading(false);
+      return;
+    }
     async function runAuthFlow() {
       try {
         // Dev mode: bypass LIFF and use mock data
@@ -95,7 +104,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     runAuthFlow();
-  }, []);
+  }, [isPublicPath]);
 
   if (error) {
     return (
